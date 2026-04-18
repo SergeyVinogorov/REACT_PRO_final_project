@@ -1,0 +1,51 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.42);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.modal {
+  width: min(560px, calc(100vw - 32px));
+  border-radius: 14px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+  border: 1px solid rgba(0,0,0,0.12);
+  padding: 16px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  cursor: pointer;
+}
+
+.close:focus {
+  outline: 2px solid rgba(0,0,0,0.4);
+  outline-offset: 2px;
+}
+
+.body {
+  margin-top: 12px;
+}
