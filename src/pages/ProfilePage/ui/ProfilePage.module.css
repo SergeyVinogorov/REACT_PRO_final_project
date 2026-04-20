@@ -56,7 +56,7 @@ input:focus {
 .form__row {
 	display: flex;
 	gap: 12px;
-	width: 100%;
+	width: 420px;
 }
 
 .form__row_min {
@@ -103,4 +103,15 @@ input:focus {
 
 .form__btn.maxContent {
 	width: max-content;
+}
+
+.form {
+	max-width: 860px;
+	padding: 0;
+}
+
+.form__title {
+	font-size: 44px;
+	font-weight: 900;
+	margin: 10px 0 18px;
 }

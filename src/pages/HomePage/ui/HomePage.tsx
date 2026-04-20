@@ -1,24 +1,29 @@
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
-import { WithQuery } from '../../../shared/store/HOCs/WithQuery';
-import { LoadMore } from '../../../shared/ui/LoadMore';
-import { CardList } from '../../../widgets/CardList';
-import { useProducts } from '../../../shared/store/hooks/useProducts';
+import { Box } from '@mui/material';
+import * as React from 'react';
+import { Hero } from './Hero';
+import { PromoBanner } from './PromoBanner';
+import { SectionCards } from './SectionCards';
+import { HitsFromRTK } from './HitsFromRTK';
+import { hits, seen } from '../config/banersData';
+import { useAuth } from 'features/auth';
 
-const CardListWithQuery = WithQuery(CardList);
-
-export const HomePage = WithProtection(() => {
-	const { products, isLoading, isError, error } = useProducts();
-
+export const HomePage = () => {
+	const { isAuthenticated } = useAuth();
 	return (
-		<>
-			<CardListWithQuery
-				title='Лакомства'
-				isLoading={isLoading}
-				isError={isError}
-				products={products}
-				error={error}
-			/>
-			<LoadMore />
-		</>
+		<Box>
+			<Hero />
+			{!isAuthenticated ? (
+				<Box pt={3}>
+					<PromoBanner />
+					<SectionCards title='Хиты' cards={hits} />
+					<SectionCards title='Вы смотрели' cards={seen} />
+				</Box>
+			) : (
+				<Box pt={3}>
+					<HitsFromRTK />
+					<SectionCards title='Вы смотрели' cards={seen} />
+				</Box>
+			)}
+		</Box>
 	);
-});
+};

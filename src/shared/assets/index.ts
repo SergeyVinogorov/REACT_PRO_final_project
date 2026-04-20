@@ -1,0 +1,11 @@
+export { default as Instagram } from './images/instagram.svg';
+export { default as Telegram } from './images/telegram.svg';
+export { default as Viber } from './images/viber.svg';
+export { default as Vk } from './images/vk.svg';
+export { default as Whatsapp } from './images/whatsapp.svg';
+export { default as truckSVG } from './icons/truck.svg';
+export { default as qualitySVG } from './icons/quality.svg';
+export { default as LikeSvg } from './icons/like.svg';
+export { default as TrashIcon } from './icons/trash.svg';
+export { default as BackSvg } from './icons/back.svg';
+export { default as Star } from './icons/star.svg';

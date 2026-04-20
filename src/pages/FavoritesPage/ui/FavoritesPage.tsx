@@ -1,18 +1,18 @@
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
-import { WithQuery } from '../../../shared/store/HOCs/WithQuery';
-import { useProducts } from '../../../shared/store/hooks/useProducts';
-import { ButtonBack } from '../../../shared/ui/ButtonBack';
-import { CardList } from '../../../widgets/CardList';
+import { WithQuery } from 'shared/HOCs/WithQuery';
+import { CardList } from 'widgets/CardList';
+import { useProducts } from 'features/products';
+import { ButtonBack } from 'shared/ui/ButtonBack';
 
 const CardListWithQuery = WithQuery(CardList);
 
-export const FavoritesPage = WithProtection(() => {
+export const FavoritesPage = () => {
 	const { isLoading, isError, products, error } = useProducts();
 
 	return (
-		<>
-			<br />
-			<ButtonBack />
+		<div className='container page'>
+			<div className='pageTop'>
+				<ButtonBack />
+			</div>
 			<CardListWithQuery
 				title='Избранные'
 				isLoading={isLoading}
@@ -20,6 +20,6 @@ export const FavoritesPage = WithProtection(() => {
 				products={products}
 				error={error}
 			/>
-		</>
+		</div>
 	);
-});
+};
