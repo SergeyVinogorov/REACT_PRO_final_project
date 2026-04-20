@@ -151,7 +151,7 @@ function makeProduct(n: number): Product {
 		description: 'Норм Олег норм олег норм олег',
 		price: 12 + n,
 		images:
-			'https://www.tablicakalorijnosti.ru/file/image/foodstuff/2e80d768207cbf01/75307c9b45b0425fa2c198a44a765e25',
+			'https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?auto=format&fit=crop&w=900&q=60',
 		discount: n % 4,
 		stock: 100 + n,
 		wight: `${n} гр`,
