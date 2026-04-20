@@ -1,15 +1,17 @@
 import classNames from 'classnames';
 import s from './Header.module.css';
-import { Logo } from '../../../shared/ui/Logo';
-import { Search } from '../../../features/search/ui/Search';
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../../shared/store/utils';
-import { userSelectors } from '../../../shared/store/slices/user';
-import { isLiked } from '../../../shared/utils';
-import { useProducts } from '../../../shared/store/hooks/useProducts';
-import { cartSelectors } from '../../../shared/store/slices/cart';
+import { Search } from 'features/products/ui/Search/Search';
+import { Link, useLocation } from 'react-router-dom';
+import { useProducts } from 'features/products';
+import { isLiked, useAppSelector } from 'shared/utils';
+import { userSelectors } from 'features/auth/model/user';
+import { cartSelectors } from 'features/cart/model/cart';
+import { Logo } from 'shared/ui/Logo';
 
 export const Header = () => {
+	const { pathname } = useLocation();
+	const isProducts = pathname.startsWith('/products');
+
 	const { products } = useProducts();
 	const user = useAppSelector(userSelectors.getUser);
 	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
@@ -24,9 +26,8 @@ export const Header = () => {
 		<header className={s.header}>
 			<div className={classNames('container', s.header__wrapper)}>
 				<Logo />
-				<Search />
+				{isProducts && <Search />}
 				<div className={s['header__icons-menu']}>
-					<Link style={{ marginRight: 12 }} to='/demo'>Demo</Link>
 					<Link className={s['header__favorites-link']} to='/favorites'>
 						<svg
 							viewBox='0 0 24 24'

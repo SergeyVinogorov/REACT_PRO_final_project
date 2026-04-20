@@ -1,12 +1,15 @@
 import s from './ProfilePage.module.css';
 import classNames from 'classnames';
-import { ButtonBack } from '../../../shared/ui/ButtonBack';
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
+import { WithProtection } from 'app/HOCs/WithProtection';
+import { ButtonBack } from 'shared/ui/ButtonBack';
 
 export const ProfilePage = WithProtection(() => {
 	return (
-		<>
-			<ButtonBack />
+		<div className='container page'>
+			<div className='pageTop'>
+				<ButtonBack />
+			</div>
+
 			<h1 className={s['form__title']}>Мои данные</h1>
 			<form className={classNames(s['form'], s['form'])}>
 				<div className={s['form__row']}>
@@ -88,6 +91,6 @@ export const ProfilePage = WithProtection(() => {
 					Сохранить
 				</button>
 			</form>
-		</>
+		</div>
 	);
 });

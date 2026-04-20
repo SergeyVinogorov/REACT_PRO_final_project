@@ -1,26 +1,46 @@
 import { memo, useMemo } from 'react';
-import { Card } from '../../../shared/ui/Card';
 import s from './CardList.module.css';
+import { Card } from './Card/Card';
+import { Sort } from 'features/products';
 
 type CardListProps = {
 	title: string;
 	products: Product[];
+	isSortEnabled?: boolean;
 };
-const CardListComponent = ({ title, products }: CardListProps) => {
+
+const CardListComponent = ({
+	title,
+	products,
+	isSortEnabled = false,
+}: CardListProps) => {
+	const cards = useMemo(
+		() =>
+			products.map((product) => <Card key={product.id} product={product} />),
+		[products]
+	);
+
 	if (!products.length) {
-		return <h1 className='header-title'>Товар не найден</h1>;
+		return (
+			<div className={s.empty}>
+				<h1 className={s.emptyTitle}>Товар не найден</h1>
+			</div>
+		);
 	}
 
-	const cards = useMemo(() => products.map((product) => <Card key={product.id} product={product} />), [products]);
-
 	return (
-		<div className={s['card-list']}>
-			<div className={s['card-list__header']}>
-				<h2 className={s['card-list__title']}>{title}</h2>
+		<div className={s.cardList}>
+			<div className={s.header}>
+				<h1 className={s.title}>{title}</h1>
 			</div>
-			<div className={s['card-list__items']}>
-				{cards}
-			</div>
+
+			{isSortEnabled && (
+				<div className={s.sortRow}>
+					<Sort />
+				</div>
+			)}
+
+			<div className={s.grid}>{cards}</div>
 		</div>
 	);
 };

@@ -1,80 +1,63 @@
-# REACT_PRO_final_project_base — Final Project Improvements
+# REACT_PRO_final_project_base — Final Project
 
-This repository contains the base project + refactoring and additions to satisfy the final checklist:
+## Что было сделано по задачам
 
-## What was done (by tasks)
+### 1) Архитектура и структура
 
-### 1) Architecture and structure
-- Added `src/features/` layer and started moving feature logic there:
-  - `features/auth` (SignInForm, SignUpForm)
-  - `features/search` (Search + URL query params + debounce + Redux filter)
-  - `features/cart` (business hook `useAddToCart`)
-- Added commonly reused UI components in `src/shared/ui`:
-  - `Button`, `Input`, `Loader`
-- Reduced prop-chains by keeping feature logic close to feature modules.
+- Вынесены слой Апп хок и WithProtection / router /
+- Инициализация хранилища
+- Разделение фичей получилось следующее auth / products / cart - взаимодействие со стором и пользовательское действие
+- Добавлена страница. Products page
+- Внесены не достающие стили для отображения корректного ui
+- Добавлены / расширены некоторые страницы для удобства чтения и хранение компонентов которые используются только в этой странице
+- Из Shared убраны компонентам с логикой  Sort/Search/LoadMore
+- Внесена единообразная структуризация для папок индекс  -> папка -> компонент стили компонента (есл присутствуют)
 
-### 2) Render optimizations
-- `CardList` memoized (`React.memo`) and product-card list is memoized via `useMemo`.
-- `Card` uses `useMemo` for derived `isProductInCart` and `useCallback` for add-to-cart handler, and is wrapped in `React.memo`.
+### 2) Оптимизация
 
-> Profiler note (fill with your findings):  
-> - Hotspot component(s): ____________________  
-> - What changed after memoization: ____________________
+ - pages/CartPage/ui/CartList.tsx → React.memo + useMemo для списка
+ - pages/CartPage/ui/CartItem.tsx → React.memo + useCallback для удаления
+ - pages/CartPage/ui/CartAmount.tsx → React.memo + useMemo для total/discount + useCallback для обработчиков
 
-### 3) React Portal modal (accessibility)
-- Added `<div id="modal-root"></div>` to `public/index.html`
-- Implemented `shared/ui/Modal` via `createPortal`
-- Close handlers:
-  - ESC
-  - Overlay click
-  - Close button ✕
-- Focus handling:
-  - Focus goes to ✕ on open
-  - Focus returns to trigger on close
-- Demo route: `/demo`
+## React DevTools Profiler analysis
 
-### 4) useRef real usage
-- `features/refExamples/ClickTimer` stores state in `useRef` (no re-render) and logs to console.
-- SignIn form autofocus implemented with `useRef` (email field).
+```text
+docs/profiler/
+```
 
-### 5) Alternative build (Vite + SWC)
-- Added `vite.config.ts` and root `index.html` for Vite build.
-- Scripts:
+### Screenshots before and after
+
+#### Cart page
+1. ![Profiler before optimization filter](docs/profiler/Screenshot 2026-04-20 at 18.58.57.png)
+2. ![Profiler after optimization 2](docs/profiler/Screenshot 2026-04-20 at 19.11.18.png)
+
+### 3) React.Portal (модалка)
+- Открывается модалка при нажатии на кнопку Оформить заказ
+
+### 4) useRef (реальное применение)
+- SignIn form autofocus при загрузке на емейл
+
+###  5) Альтернативная сборка (Vite + SWC)
+- Добавлена Vite сборка на `@vitejs/plugin-react-swc`:
+  - `vite.config.ts`
+- Скрипты:
   - `npm run dev:vite`
-  - `npm run build:vite` -> outputs to `dist-vite/`
-  - `npm run compare:builds` -> prints time & size to fill below.
+  - `npm run build:vite` (вывод: `dist-vite/`)
+  - `npm run compare:builds` (сравнение времени/размера: webpack vs vite)
 
-**Build comparison (fill after running compare script):**
-- Webpack time: ____ ms, size: ____ MB
-- Vite time: ____ ms, size: ____ MB
-- Short conclusion: ____________________
+### Сравнение сборок (заполнить после запуска)
+Запустите:
+```bash
+npm run compare:builds
+```
 
-### 6) React 19 hooks (examples)
-- Added `src/features/react19Examples` with:
-  - `FormWithAsyncSave` (useActionState)
-  - `TodoListOptimistic` (useOptimistic + transition)
+- Webpack: 13868ms, dist size: 0.98 MB
+- Vite(SWC): 3858ms, dist-vite size: 0.95 MB
 
-> If your current React version is 18, upgrade `react`/`react-dom` to 19 to run these examples.
+---
+## 6) React 19 hooks (useActionState / useOptimistic)
 
-## Folder structure
-- `src/shared` — UI + utilities + store + API
-- `src/features` — feature modules (search, cart, react19Examples, refExamples)
-- `src/pages` — route pages
-- `src/widgets` — page composition blocks (header/footer/forms/lists)
-
-## Demo
-- Portal modal + useRef demo page: `http://localhost:3000/demo` (webpack) or `http://localhost:5173/demo` (vite)
-- Screenshots/GIFs to add:
-  - Modal portal (open + close)
-  - React 19 form / optimistic UI
-  - Profiler hotspot (before/after)
-
-## Commands
-### Webpack
-- Dev: `npm run start` (or your existing dev script)
-- Prod: `npm run build`
-
-### Vite (alternative)
-- Dev: `npm run dev:vite`
-- Build: `npm run build:vite`
-- Compare builds: `npm run compare:builds`
+### useOptimistic — «лайк» товара
+- `features/products/ui/LikeButton` использует `useOptimistic`:
+  - UI переключает «лайк» сразу, без ожидания ответа
+  - при ошибке — откат
